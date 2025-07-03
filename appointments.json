@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1751277617896,
+    "doctorId": 1751277509980,
+    "doctorName": "Lala yashoda",
+    "specialty": "dermatologist",
+    "patientId": 1751277376897,
+    "patientName": "YASHODA LALA",
+    "date": "2005-10-08",
+    "time": "04:30",
+    "reason": "excess dark spots ",
+    "status": "Completed",
+    "precautions": "take more water",
+    "prescription": "vitamin a - Night,  - Morning"
+  }
+]
