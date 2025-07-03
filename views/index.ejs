@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack - Your Online Health Partner</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      color: #675858;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    header {
+      background-color: #5f6c6b;
+      padding: 15px 0;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(to right, #7a8290, #161b2a);
+      color: white;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .hero a {
+      background-color: white;
+      color: #1e3a8a;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .hero a:hover {
+      background-color: #e2e8f0;
+    }
+
+    /* Features Section */
+    .features {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+    }
+
+    .feature {
+      flex: 1 1 250px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .feature h3 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f1f5f9;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @media (max-width: 700px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 15px;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="nav-container">
+      <h1>MedTrack</h1>
+      <nav>
+        <a href="/about">About</a>
+        <a href="/register">Signup</a>
+        <a href="/login">Login</a>
+        <a href="/contactus">Contact</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Welcome to MedTrack</h2>
+    <p>Your one-stop solution for online medical consultation and health tracking</p>
+    <a href="/register">Get Started</a>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="feature">
+      <h3>Instant Appointments</h3>
+      <p>Book consultations with certified doctors in just a few clicks.</p>
+    </div>
+    <div class="feature">
+      <h3>Secure Patient Records</h3>
+      <p>Access your medical history and prescriptions securely anytime.</p>
+    </div>
+    <div class="feature">
+      <h3>24/7 Access</h3>
+      <p>Available round the clock for emergency and routine care.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 MedTrack. All rights reserved.
+  </footer>
+
+</body>
+</html>

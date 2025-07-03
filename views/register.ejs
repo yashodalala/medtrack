@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedTrack - Registration</title>
+  <style>
+    :root {
+      --primary: #737c95;
+      --secondary: #5a6277;
+      --bg: #f5f9ff;
+      --white: #ffffff;
+      --text: #333;
+      --gray: #666;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background-image: linear-gradient(to left, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background: white;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links li a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-image: linear-gradient(to left, var(--primary), var(--secondary));
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 10px 0;
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .nav-links li {
+        padding: 10px 20px;
+        text-align: left;
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .registration-container {
+      background-color: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-top: 50px;
+    }
+
+    .form-title {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-align: center;
+      flex: 1;
+    }
+
+    .tab:hover {
+      background-color: #f0f7ff;
+    }
+
+    .tab.active {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+      background-color: #e9ecf3;
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .submit-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--secondary);
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tab {
+        padding: 15px;
+      }
+    }
+
+    .registration-container h5 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .registration-container h5 a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .registration-container h5 a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#" class="logo">
+        <img src="https://img.icons8.com/doodle/48/stethoscope.png" alt="MedTrack Logo" />
+        MedTrack
+      </a>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">About</a></li>
+        <li><a href="/contactus">Contact Us</a></li>
+        <li><a href="/login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="registration-container">
+      <h5>Already had an account? <a href="/login">Login</a></h5>
+      <h1 class="form-title">Create Your Account</h1>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('patient')">Patient Registration</div>
+        <div class="tab" onclick="switchTab('doctor')">Doctor Registration</div>
+      </div>
+
+      <!-- Patient Registration Form -->
+      <div id="patient-form" class="form-container active">
+        <form id="patient-registration" action="/register/patient" method="post" onsubmit="return validatePatientForm()">
+          <input type="hidden" name="role" value="patient" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="p-first-name">First Name</label>
+              <input type="text" id="p-first-name" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="p-last-name">Last Name</label>
+              <input type="text" id="p-last-name" name="lastName" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-dob">Age</label>
+            <input type="number" id="p-dob" name="dob" required />
+          </div>
+
+          <div class="form-group">
+            <label for="p-gender">Gender</label>
+            <select id="p-gender" name="gender" required>
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="p-email">Email Address</label>
+            <input type="email" id="p-email" name="email" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="p-phone">Phone Number</label>
+              <input type="tel" id="p-phone" name="phone" required />
+            </div>
+            <div class="form-group">
+              <label for="p-address">Address</label>
+              <input type="text" id="p-address" name="address" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="p-password">Password</label>
+              <input type="password" id="p-password" name="password" required />
+            </div>
+            <div class="form-group">
+              <label for="p-confirm-password">Confirm Password</label>
+              <input type="password" id="p-confirm-password" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><input type="checkbox" required /> I agree to the Terms and Conditions</label>
+          </div>
+
+          <button type="submit" class="submit-btn">Register as Patient</button>
+        </form>
+      </div>
+
+      <!-- Doctor Registration Form -->
+      <div id="doctor-form" class="form-container">
+        <form id="doctor-registration" action="/register/doctor" method="post" onsubmit="return validateDoctorForm()">
+          <input type="hidden" name="role" value="doctor" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-first-name">First Name</label>
+              <input type="text" id="d-first-name" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="d-last-name">Last Name</label>
+              <input type="text" id="d-last-name" name="lastName" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="d-specialization">Specialization</label>
+            <select id="d-specialization" name="specialization" required>
+              <option value="">Select Specialization</option>
+              <option value="cardiologist">Cardiologist</option>
+              <option value="dermatologist">Dermatologist</option>
+              <option value="neurologist">Neurologist</option>
+              <option value="pediatrician">Pediatrician</option>
+              <option value="general">General Practitioner</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-license">Medical License Number</label>
+              <input type="text" id="d-license" name="license" required />
+            </div>
+            <div class="form-group">
+              <label for="d-years">Years of Experience</label>
+              <input type="number" id="d-years" name="experience" min="0" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="d-hospital">Hospital/Clinic Name</label>
+            <input type="text" id="d-hospital" name="hospital" required />
+          </div>
+
+          <div class="form-group">
+            <label for="d-email">Email Address</label>
+            <input type="email" id="d-email" name="email" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-phone">Phone Number</label>
+              <input type="tel" id="d-phone" name="phone" required />
+            </div>
+            <div class="form-group">
+              <label for="d-address">Practice Address</label>
+              <input type="text" id="d-address" name="address" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-password">Password</label>
+              <input type="password" id="d-password" name="password" required />
+            </div>
+            <div class="form-group">
+              <label for="d-confirm-password">Confirm Password</label>
+              <input type="password" id="d-confirm-password" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><input type="checkbox" required /> I confirm that all information provided is accurate</label>
+          </div>
+
+          <button type="submit" class="submit-btn">Register as Doctor</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Contact: info@medtrack.com | Phone: (123) 456-7890</p>
+    <p><a href="#" style="color: white;">Privacy Policy</a> | <a href="#" style="color: white;">Terms of Service</a></p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("show");
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
+      document.getElementById(tabName + '-form').classList.add('active');
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function validatePatientForm() {
+      const pass = document.getElementById("p-password").value;
+      const confirm = document.getElementById("p-confirm-password").value;
+      if (pass !== confirm) {
+        alert("Passwords do not match");
+        return false;
+      }
+      return true;
+    }
+
+    function validateDoctorForm() {
+      const pass = document.getElementById("d-password").value;
+      const confirm = document.getElementById("d-confirm-password").value;
+      if (pass !== confirm) {
+        alert("Passwords do not match");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>

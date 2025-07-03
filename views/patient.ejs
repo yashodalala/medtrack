@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack - Patient Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #737c95;
+      --primary-dark: #5e667e;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body class="bg-blue-50 text-[color:var(--primary)]">
+
+<!-- Header -->
+<header class="shadow-md sticky top-0 z-50 text-white" style="background-image: linear-gradient(to left, var(--primary), var(--primary-dark));">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="https://img.icons8.com/doodle/48/stethoscope.png" alt="MedTrack Logo" />
+      <span class="text-2xl font-bold">MedTrack</span>
+    </div>
+    <div class="flex items-center">
+      <span class="hidden sm:inline mr-4 font-medium">Welcome, <%= patient.name %></span>
+      <div class="w-10 h-10 rounded-full bg-white text-[color:var(--primary)] flex items-center justify-center font-bold">
+        <%= patient.name.split(' ').map(n => n[0]).join('') %>
+      </div>
+      <button class="ml-4 md:hidden text-white" id="hamburgerBtn">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<aside class="sidebar bg-white shadow-md p-5 fixed top-0 left-0 h-full w-64 hidden md:block z-40">
+  <ul class="space-y-4 text-[color:var(--primary)]">
+    <li><a href="#" class="flex items-center gap-2 hover:text-[color:var(--primary-dark)]"><span>🗕</span><span>Appointments</span></a></li>
+    <li><a href="#" class="flex items-center gap-2 hover:text-[color:var(--primary-dark)]"><span>📋</span><span>Records</span></a></li>
+    <li><a href="#" class="flex items-center gap-2 hover:text-[color:var(--primary-dark)]"><span>💊</span><span>Prescriptions</span></a></li>
+    <li><a href="#" class="flex items-center gap-2 hover:text-[color:var(--primary-dark)]"><span>🏥</span><span>Doctors</span></a></li>
+    <li><a href="/dashboard" class="flex items-center gap-2 hover:text-[color:var(--primary-dark)]"><span>📊</span><span>Dashboard</span></a></li>
+    <li>
+      <form action="/logout" method="GET">
+        <button type="submit" class="flex items-center gap-2 text-red-500 hover:text-red-700">
+          <span>🚪</span><span>Logout</span>
+        </button>
+      </form>
+    </li>
+  </ul>
+</aside>
+
+<!-- Main Dashboard Content -->
+<div class="md:ml-64 px-4 py-6">
+  <main>
+    <!-- Appointments Section -->
+    <section class="bg-white rounded-lg shadow p-6 mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Upcoming Appointments</h2>
+        <button class="bg-[color:var(--primary)] text-white px-4 py-2 rounded hover:bg-[color:var(--primary-dark)]" id="bookAppointmentBtn">+ Book</button>
+      </div>
+      <ul>
+        <% appointments.forEach(app => { %>
+        <li class="border-b py-4 flex flex-col sm:flex-row justify-between sm:items-center">
+          <div>
+            <p class="font-semibold"><%= app.doctorName %> - <%= app.specialty %></p>
+            <p class="text-sm text-gray-500"><%= app.date %> at <%= app.time %></p>
+            <span class="text-sm font-medium text-green-600"><%= app.status %></span>
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+    </section>
+
+    <!-- Prescriptions Section -->
+    <section class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Recent Prescriptions</h2>
+      <ul>
+        <% prescriptions.forEach(p => { %>
+        <li class="border-b py-3">
+          <p><strong><%= p.doctorName %></strong> - <span class="text-sm text-gray-500"><%= p.date %></span></p>
+          <p class="text-sm text-gray-600">Precautions: <%= p.precautions %></p>
+        </li>
+        <% }); %>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<!-- Book Appointment Modal -->
+<div class="modal" id="bookAppointmentModal">
+  <div class="modal-content">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold">Book Appointment</h3>
+      <button class="close-btn" id="closeModalBtn">&times;</button>
+    </div>
+    <form id="appointmentForm" method="POST" action="/patient/book" class="space-y-4">
+      <select name="doctorId" id="doctor" class="w-full border p-2 rounded" required>
+        <option value="">Select Doctor</option>
+        <% doctors.forEach(doc => { %>
+          <option value="<%= doc.id %>"><%= doc.name %> (<%= doc.specialization %>)</option>
+        <% }); %>
+      </select>
+      <input type="date" name="date" class="w-full border p-2 rounded" required />
+      <input type="time" name="time" class="w-full border p-2 rounded" required />
+      <textarea name="reason" class="w-full border p-2 rounded" placeholder="Reason" required></textarea>
+      <div class="flex justify-end gap-4">
+        <button type="button" class="px-4 py-2 border rounded" id="cancelAppointmentBtn">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-[color:var(--primary)] text-white rounded hover:bg-[color:var(--primary-dark)]">Book</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  const modal = document.getElementById('bookAppointmentModal');
+  const bookBtn = document.getElementById('bookAppointmentBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const cancelBtn = document.getElementById('cancelAppointmentBtn');
+
+  bookBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+  const closeModal = () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  };
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.getElementById('hamburgerBtn').addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('hidden');
+  });
+</script>
+
+</body>
+</html>
